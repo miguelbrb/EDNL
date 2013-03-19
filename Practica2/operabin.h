@@ -45,5 +45,7 @@ int profundidad (const Abin<T>& A, const typename Abin<T>::nodo n)
     	return (1+profundidad(A,A.padreB(n)));
 	}
 }
-
+//*******************************************
+//4 y 5 hechos en sus respectivos TADs.     *
+//*******************************************
 #endif
