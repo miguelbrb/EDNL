@@ -23,6 +23,10 @@ template <typename T> class Abin {
         nodo hijoDrchoB(nodo n) const;
         Abin(const Abin<T>& a);                // ctor. de copia
         Abin<T>& operator =(const Abin<T>& a); //asignacion de arboles
+        //Ejercicio 5.
+        int altura(nodo n);
+        int profundidad(nodo n);
+        
     private:
         struct celda {
             T elto;
@@ -187,5 +191,28 @@ template <typename T> class Abin {
         }
     return m;
     }
+    
+//EJERCICIO 5. AÑADIDOS METODOS ALTURA Y PROFUNDIDAD.
+//***************************************************
+//Recibe un nodo. Si se quiere la altura del arbol, se da la raiz.
+template <typename T>
+int Abin<T>::altura(Abin<T>::nodo n)
+{
+	if(n==NODO_NULO){ return -1; }
+	else{
+		return (1+max(altura(n->hizq),altura(n->hder)));
+	}
+}
+
+//Recibe un nodo, y se va subiendo en la jerarquia.
+template <typename T>
+int Abin<T>::profundidad(Abin<T>::nodo n)
+{
+	if(n==r){ return 0; }//El nodo es la raiz.
+	else{
+		return (1+profundidad(n->padre));
+	}
+
+}
   
 #endif // ABIN_H
