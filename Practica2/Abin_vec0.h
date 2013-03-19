@@ -1,6 +1,7 @@
 #ifndef ABIN_VEC0_H
 #define ABIN_VEC0_H
 #include <cassert>
+#include <cstdlib>
 template <typename T> class Abin {
 public:
     typedef int nodo; // índice de la matriz
@@ -23,6 +24,9 @@ public:
     nodo hijoDrchoB(nodo n) const;
     Abin(const Abin<T>& a); // ctor. de copia
     Abin<T>& operator =(const Abin<T>& a); // asignación
+    //Ejercicio 4.
+    int altura(nodo n);
+    int profundidad(nodo n);
     
 private:
         struct celda {
@@ -228,4 +232,31 @@ Abin<T>& Abin<T>::operator =(const Abin<T>& a)
     }
     return *this;
 }
+
+
+//EJERCICIO 4. AÑADIR METODO ALTURA Y PROFUNDIDAD.
+//*************************************************
+//Recibe un nodo. Si se quiere la altura del arbol, se da la raiz.
+template <typename T>
+int Abin<T>::altura(Abin<T>::nodo n)
+{
+	assert(n >= 0 && n < numNodos);//Comprueba que el nodo pertenezca al arbol.
+	if(n==NODO_NULO) {return -1; }
+	else{
+		return (1+max(altura(nodos[n].hizq),altura(nodos[n].hder)));
+	}
+}
+
+//Recibe un nodo, y se va subiendo en la jerarquia.
+template <typename T>
+int Abin<T>::profundidad(Abin<T>::nodo n)
+{
+	assert(n >= 0 && n < numNodos);//Comprueba que el nodo pertenezca al arbol.
+	if(n==0){ return 0;}//El nodo es la raiz.
+	else{
+		return (1+profundidad(nodos[n].padre));
+	}
+}
+
+
 #endif // ABIN_VEC0_H   
