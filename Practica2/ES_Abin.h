@@ -1,7 +1,8 @@
 #ifndef ES_ABIN_H
 #define ES_ABIN_H
 #include <iostream>
-#include "Abin.h"
+#include "Abin_vec0.h"//Estático.
+//#include "Abin.h"//Dinámico.
 using namespace std;
 
 template <typename T>
