@@ -14,7 +14,7 @@ int main()
     imprimirAbin(t);
     int m=t.altura(t.raizB());
     cout << "Altura del arbol: "<< m << endl;
-    int p=t.profundidad(t.hijoDrchoB(t.hijoIzqdoB(t.raizB())));    
+    int p=t.profundidad(t.hijoDrchoB(t.hijoIzqdoB(t.raizB())));
     cout << "Profundidad del nodo "<< ": " << p << endl;
     return 0;
 }
