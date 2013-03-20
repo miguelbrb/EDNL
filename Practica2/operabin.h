@@ -24,7 +24,7 @@ int sumar_nodos (typename Abin<T>::nodo n, const Abin<T>& A)
 template <typename T>
 int altura (const Abin<T>& A)
 {
-    return ((recorre_altura(A.raizB(),A))-1);
+    return recorre_altura(A.raizB(),A);
 }
 
 template <typename T>
@@ -33,7 +33,7 @@ int recorre_altura(typename Abin<T>::nodo n, const Abin<T>& A)
     if (n != Abin<T>::NODO_NULO) {
        return (1+max((recorre_altura(A.hijoIzqdoB(n),A)),(recorre_altura(A.hijoDrchoB(n),A))));
     }
-    else return 0;
+    else return -1;
 }
 
 //Ejercicio 3
@@ -50,6 +50,7 @@ int profundidad (const Abin<T>& A, const typename Abin<T>::nodo n)
 //*******************************************
 
 //Ejercicio 6
+//Se necesita una funcion maximo de 3 argumentos si se va a hacer así.
 //FUNCION QUE CALCULA EL MAXIMO DE 3 ARGUMENTOS. EL max NO VALE (2 ARGUMENTOS SOLO).
 template <typename T>
 const T maximo_3 (const T& a, const T& b, const T& c)
@@ -60,7 +61,7 @@ const T maximo_3 (const T& a, const T& b, const T& c)
 	if(a<x){return x;}
 	else{return a;}
 }
-
+//Aquí, el ejercicio en sí:
 template <typename T>
 int desequilibrio (const Abin<T>& A)
 {
