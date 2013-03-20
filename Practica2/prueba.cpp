@@ -18,6 +18,7 @@ int main()
     cout << "Profundidad del nodo: " << p << endl;
     int d=desequilibrio(t);
     cout << "Desequilibrio del arbol:" << d << endl;
-    cout << "Arbol pseudocompleto?" << pseudocompleto(t) << endl;
+    if(pseudocompleto(t)){ cout << "Arbol pseudocompleto." << endl; }
+    else{ cout << "Arbol no pseudocompleto." << endl; }
     return 0;
 }
