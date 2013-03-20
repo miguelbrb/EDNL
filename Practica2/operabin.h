@@ -48,4 +48,58 @@ int profundidad (const Abin<T>& A, const typename Abin<T>::nodo n)
 //*******************************************
 //4 y 5 hechos en sus respectivos TADs.     *
 //*******************************************
+
+//Ejercicio 6
+//FUNCION QUE CALCULA EL MAXIMO DE 3 ARGUMENTOS. EL max NO VALE (2 ARGUMENTOS SOLO).
+template <typename T>
+const T maximo_3 (const T& a, const T& b, const T& c)
+{
+	T x;
+	if(b<c){x=c;}
+	else{x=b;}
+	if(a<x){return x;}
+	else{return a;}
+}
+
+template <typename T>
+int desequilibrio (const Abin<T>& A)
+{
+	return desequilibrioMAX(A,A.raizB());
+}
+
+template <typename T>
+int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
+{
+	if(n!=Abin<T>::NODO_NULO)
+	{
+		int deseq_nodo = abs(A.altura(A.hijoIzqdoB(n))-A.altura(A.hijoDrchoB(n)));
+		return maximo_3(deseq_nodo,desequilibrioMAX(A,A.hijoIzqdoB(n)),desequilibrioMAX(A,A.hijoDrchoB(n)));
+	}
+	else{return 0;}
+}
+/*
+//OTRA POSIBILIDAD: Utilizando algorithm::max .
+template <typename T>
+int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
+{
+    if(n==Abin<T>::NODO_NULO){return 0;}
+    else
+    {
+        int deseq_nodo=abs(A.altura(A.hijoIzqdoB(n)) - A.altura(A.hijoDrchoB(n)));
+        return max(deseq_nodo,max(desequilibrioMAX(A,A.hijoIzqdoB(n)),desequilibrioMAX(A,A.hijoDrchoB(n))));
+    }
+}
+*/
+
+
+
+//Ejercicio 7
+template <typename T>
+bool pseudocompleto(const Abin<T>& A)
+{
+	
+}
+
+
+
 #endif
