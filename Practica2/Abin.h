@@ -24,8 +24,8 @@ template <typename T> class Abin {
         Abin(const Abin<T>& a);                // ctor. de copia
         Abin<T>& operator =(const Abin<T>& a); //asignacion de arboles
         //Ejercicio 5.
-        int altura(nodo n);
-        int profundidad(nodo n);
+        int altura(nodo n) const;
+        int profundidad(nodo n) const;
         
     private:
         struct celda {
@@ -196,7 +196,7 @@ template <typename T> class Abin {
 //***************************************************
 //Recibe un nodo. Si se quiere la altura del arbol, se da la raiz.
 template <typename T>
-int Abin<T>::altura(Abin<T>::nodo n)
+int Abin<T>::altura(Abin<T>::nodo n) const
 {
 	if(n==NODO_NULO){ return -1; }
 	else{
@@ -206,7 +206,7 @@ int Abin<T>::altura(Abin<T>::nodo n)
 
 //Recibe un nodo, y se va subiendo en la jerarquia.
 template <typename T>
-int Abin<T>::profundidad(Abin<T>::nodo n)
+int Abin<T>::profundidad(Abin<T>::nodo n) const
 {
 	if(n==r){ return 0; }//El nodo es la raiz.
 	else{

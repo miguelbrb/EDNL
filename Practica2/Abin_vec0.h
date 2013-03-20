@@ -25,8 +25,8 @@ public:
     Abin(const Abin<T>& a); // ctor. de copia
     Abin<T>& operator =(const Abin<T>& a); // asignación
     //Ejercicio 4.
-    int altura(nodo n);
-    int profundidad(nodo n);
+    int altura(nodo n) const;
+    int profundidad(nodo n) const;
     
 private:
         struct celda {
@@ -238,7 +238,7 @@ Abin<T>& Abin<T>::operator =(const Abin<T>& a)
 //*************************************************
 //Recibe un nodo. Si se quiere la altura del arbol, se da la raiz.
 template <typename T>
-int Abin<T>::altura(Abin<T>::nodo n)
+int Abin<T>::altura(Abin<T>::nodo n) const
 {
 	assert(n >= 0 && n < numNodos);//Comprueba que el nodo pertenezca al arbol.
 	if(n==NODO_NULO) {return -1; }
@@ -249,7 +249,7 @@ int Abin<T>::altura(Abin<T>::nodo n)
 
 //Recibe un nodo, y se va subiendo en la jerarquia.
 template <typename T>
-int Abin<T>::profundidad(Abin<T>::nodo n)
+int Abin<T>::profundidad(Abin<T>::nodo n) const
 {
 	assert(n >= 0 && n < numNodos);//Comprueba que el nodo pertenezca al arbol.
 	if(n==0){ return 0;}//El nodo es la raiz.
