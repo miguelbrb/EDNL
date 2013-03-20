@@ -12,9 +12,11 @@ int main()
     imprimirAbin(t);
     int n=numero_nodos(t);
     cout << "Numero de nodos: " << n << endl;
-    int m=altura(t);
-    cout << "Altura del arbol: "<< m << endl;
+    int h=altura(t);
+    cout << "Altura del arbol: "<< h << endl;
     int p=profundidad(t,t.hijoDrchoB(t.hijoIzqdoB(t.raizB())));    
-    cout << "Profundidad del nodo "<< ": " << p << endl;
+    cout << "Profundidad del nodo: " << p << endl;
+    int d=desequilibrio(t);
+    cout << "Desequilibrio del arbol:" << d << endl;    
     return 0;
 }
