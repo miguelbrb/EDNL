@@ -98,9 +98,25 @@ int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
 template <typename T>
 bool pseudocompleto(const Abin<T>& A)
 {
-	
+	if(A.arbolVacioB()){return false;}//Arbol vacio. No puede ser pseudocompleto.
+	else if(A.hijoIzqdoB(A.raizB())==Abin<T>::NODO_NULO && A.hijoDrchoB(A.raizB())==Abin<T>::NODO_NULO)
+			{ return false; }//La raíz no tiene hijos. No es el penúltimo nivel, sino el último. No pseudocompleto.
+		else if(A.altura()==1)//Solo la raíz tiene hijos.
+			{//Si además, ambos existen, entonces la raíz es el penúltimo nivel y el siguiente está completo.
+				if(A.hijoIzqdoB(A.raizB())!=Abin<T>::NODO_NULO && A.hijoDrchoB(A.raizB())!=Abin<T>::NODO_NULO)
+					{ return true; }
+			}
+			else{//La altura es mayor que 1. HAY MÁS NODOS.
+				return pseucompletRec(A,A.raizB());//Llamada recursiva.
+			}
 }
 
+template <typename T>
+bool pseudocompletRec(const Abin<T>& A, const Abin<T>::nodo n)
+{
+	
+
+}
 
 
 #endif
