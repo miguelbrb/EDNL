@@ -17,6 +17,7 @@ int main()
     int p=profundidad(t,t.hijoDrchoB(t.hijoIzqdoB(t.raizB())));    
     cout << "Profundidad del nodo: " << p << endl;
     int d=desequilibrio(t);
-    cout << "Desequilibrio del arbol:" << d << endl;    
+    cout << "Desequilibrio del arbol:" << d << endl;
+    cout << "Arbol pseudocompleto?" << pseudocompleto(t) << endl;
     return 0;
 }
