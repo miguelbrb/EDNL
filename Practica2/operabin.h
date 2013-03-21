@@ -114,30 +114,35 @@ bool pseudocompleto(const Abin<T>& A)
 template <typename T>
 bool pseudocompletRec(const Abin<T>& A, const typename Abin<T>::nodo n)
 {
+	if(A.hijoIzqdoB(n)==Abin<T>::NODO_NULO && A.hijoDrchoB(n)==Abin<T>::NODO_NULO){ return true; }
 	//La idea ahora es comprobar primero al hijoIzqdoB y luego al hijoDrchoB.
 	//En cada uno, primero se comprueba si la altura es 1. Si lo es, se comprueba que sus hijos
 	//sean 2 o ninguno. De lo contrario, no es pseudocompleto.
 	//Si la altura no es 1, se pasa al siguiente nivel. Así progresivamente.
 	typename Abin<T>::nodo h;//Se crea un nodo para hacer más comodo el código.
 	
-	h=A.hijoIzqdoB(n);//Primero el hijoIzqdoB(n);
-	if(A.altura(h)==1)//Los hijos de h no tienen hijos. Se comprueba la propiedad.
-	{
-		if(A.hijoIzqdoB(h)==Abin<T>::NODO_NULO && A.hijoDrchoB(h)==Abin<T>::NODO_NULO){ return true; }
-		else if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO && A.hijoDrchoB(h)!=Abin<T>::NODO_NULO){ return true; }
-			else {return false;}//Tiene 1 hijo.
+	if(A.hijoIzqdoB(n)!=Abin<T>::NODO_NULO){
+		h=A.hijoIzqdoB(n);//Primero el hijoIzqdoB(n);
+		if(A.altura(h)==1)//Los hijos de h no tienen hijos. Se comprueba la propiedad.
+		{
+			if(A.hijoIzqdoB(h)==Abin<T>::NODO_NULO && A.hijoDrchoB(h)==Abin<T>::NODO_NULO){ return true; }
+			else if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO && A.hijoDrchoB(h)!=Abin<T>::NODO_NULO){ return true; }
+				else {return false;}//Tiene 1 hijo.
+		}
+		else if(A.altura(h)>1){ return pseudocompletRec(A,h); }//Si la altura no es 1, se pasa al siguiente nivel.
 	}
-	else if(A.altura(h)>1){ return pseudocompletRec(A,h); }//Si la altura no es 1, se pasa al siguiente nivel.
 	
-	h=A.hijoDrchoB(n);//Ahora, el hijoDrchoB(n);
-	//Se realizan las mismas comprobaciones:
-	if(A.altura(h)==1)//Los hijos de h no tienen hijos. Se comprueba la propiedad.
-	{
-		if(A.hijoIzqdoB(h)==Abin<T>::NODO_NULO && A.hijoDrchoB(h)==Abin<T>::NODO_NULO){ return true; }
-		else if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO && A.hijoDrchoB(h)!=Abin<T>::NODO_NULO){ return true; }
-			else {return false;}//Tiene 1 hijo.
+	if(A.hijoDrchoB(n)!=Abin<T>::NODO_NULO){
+		h=A.hijoDrchoB(n);//Ahora, el hijoDrchoB(n);
+		//Se realizan las mismas comprobaciones:
+		if(A.altura(h)==1)//Los hijos de h no tienen hijos. Se comprueba la propiedad.
+		{
+			if(A.hijoIzqdoB(h)==Abin<T>::NODO_NULO && A.hijoDrchoB(h)==Abin<T>::NODO_NULO){ return true; }
+			else if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO && A.hijoDrchoB(h)!=Abin<T>::NODO_NULO){ return true; }
+				else {return false;}//Tiene 1 hijo.
+		}
+		else if(A.altura(h)>1){ return pseudocompletRec(A,h); }//Si la altura no es 1, se pasa al siguiente nivel.
 	}
-	else if(A.altura(h)>1){ return pseudocompletRec(A,h); }//Si la altura no es 1, se pasa al siguiente nivel.
 }
 
 
