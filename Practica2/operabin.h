@@ -127,7 +127,20 @@ bool pseudocompletRec(const Abin<T>& A, const typename Abin<T>::nodo n)
 		{
 			if(A.hijoIzqdoB(h)==Abin<T>::NODO_NULO && A.hijoDrchoB(h)==Abin<T>::NODO_NULO){ return true; }
 			else if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO && A.hijoDrchoB(h)!=Abin<T>::NODO_NULO){ return true; }
-				else {return false;}//Tiene 1 hijo.
+				else{
+					if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO)
+					{
+						if(A.profundidad(A.hijoIzqdoB(h))==A.altura(A.raizB())){return false;}
+						//En ese caso, el nodo h está en el penúltimo nivel. Y como tiene 1 solo hijo, sería false.
+						else{return true;}//No está en el penúltimo nivel. No se puede negar que sea pseudocompleto.
+					}
+					if(A.hijoDrchoB(h)!=Abin<T>::NODO_NULO)
+					{
+						if(A.profundidad(A.hijoDrchoB(h))==A.altura(A.raizB())){return false;}
+						//En ese caso, el nodo h está en el penúltimo nivel. Y como tiene 1 solo hijo, sería false.
+						else{return true;}//No está en el penúltimo nivel. No se puede negar que sea pseudocompleto.
+					}
+				}
 		}
 		else if(A.altura(h)>1){ return pseudocompletRec(A,h); }//Si la altura no es 1, se pasa al siguiente nivel.
 	}
@@ -139,7 +152,20 @@ bool pseudocompletRec(const Abin<T>& A, const typename Abin<T>::nodo n)
 		{
 			if(A.hijoIzqdoB(h)==Abin<T>::NODO_NULO && A.hijoDrchoB(h)==Abin<T>::NODO_NULO){ return true; }
 			else if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO && A.hijoDrchoB(h)!=Abin<T>::NODO_NULO){ return true; }
-				else {return false;}//Tiene 1 hijo.
+				else{
+					if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO)
+					{
+						if(A.profundidad(A.hijoIzqdoB(h))==A.altura(A.raizB())){return false;}
+						//En ese caso, el nodo h está en el penúltimo nivel. Y como tiene 1 solo hijo, sería false.
+						else{return true;}//No está en el penúltimo nivel. No se puede negar que sea pseudocompleto.
+					}
+					if(A.hijoDrchoB(h)!=Abin<T>::NODO_NULO)
+					{
+						if(A.profundidad(A.hijoDrchoB(h))==A.altura(A.raizB())){return false;}
+						//En ese caso, el nodo h está en el penúltimo nivel. Y como tiene 1 solo hijo, sería false.
+						else{return true;}//No está en el penúltimo nivel. No se puede negar que sea pseudocompleto.
+					}
+				}
 		}
 		else if(A.altura(h)>1){ return pseudocompletRec(A,h); }//Si la altura no es 1, se pasa al siguiente nivel.
 	}
