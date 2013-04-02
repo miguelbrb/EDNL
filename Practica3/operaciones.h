@@ -81,8 +81,3 @@ void refleRec(const Abin<T>& A, const typename Abin<T>::nodo a, Abin<T>& B, cons
 	}
 	else{/*No se hace nada.*/}//No tiene hijos, por tanto no se sigue por esa rama.
 }
-
-
-
-
-
