@@ -49,3 +49,7 @@ bool AbinSimilares (const Abin<T>& A, const typename Abin<T>::nodo a,const Abin<
 			else return false;
 	}
 }
+*/
+//Ejercicio 2.
+
+template <typename T
