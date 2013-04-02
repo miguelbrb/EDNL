@@ -57,8 +57,8 @@ Abin<T> reflejar(const Abin<T>& A)
 	Abin<T> reflejo;
 	if(A.arbolVacioB()){ return reflejo; }
 	else{ 
-		B.crearRaizB(A.elemento(A.raizB()));
-		refleRec(A,A.raizB(),B,B.raizB());
+		reflejo.crearRaizB(A.elemento(A.raizB()));
+		refleRec(A,A.raizB(),reflejo,reflejo.raizB());
 		return reflejo;
 		}
 }
