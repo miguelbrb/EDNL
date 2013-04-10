@@ -32,39 +32,47 @@ void imprimirDescendientes (typename Abin<T>::nodo r,const Abin<T>& A)
      }
 }
 
+bool pregunta()
+{
+	char sn;
+	cout << "Desea introducir un nodo? (s/n)" << endl;
+	cin >> sn;
+	return (sn=='s');
+}
+
+
 template <typename T> 
 void leerAbin(Abin<T>& a){
      if(a.arbolVacioB()){
-		 T elto, bandera;
-		 cout << "Escriba elemento 'bandera' para parar" << endl;
-		 cin >> bandera;
-		 cout << "Introduzca nodo raiz:" << endl;
-		 cin >> elto;
-		 if(elto!=bandera){
-		                   a.crearRaizB(elto);
-		                   leerDescendientes(a, a.raizB(), bandera);
-		                   }
-		 else{
-		      cout << "Fin del arbol." << endl;
-		      }
+		T elto;
+		if(pregunta()){
+			 cout << "Introduzca nodo raiz:" << endl;
+			 cin >> elto;
+		     a.crearRaizB(elto);
+			leerDescendientes(a, a.raizB());
+			}
+			 else{
+				  cout << "Fin del arbol." << endl;
+				  }
+				 
 		 }else{cout<<"Error: El arbol no estaba vacio."<<endl;}
      }
 
 template <typename T> 
-void leerDescendientes (Abin<T>& A, typename Abin<T>::nodo n, T bandera){
+void leerDescendientes (Abin<T>& A, typename Abin<T>::nodo n){
      T elto;
-     cout << "Inserta hijo izquierdo de " << A.elemento(n) <<": ('" << bandera << "' no introducir mas hijos por aqui) " << endl;
-     cin >> elto;
-     if(elto != bandera){
+     cout << "Hijo izquierdo de " << A.elemento(n) <<": " << endl;
+     if(pregunta()){
+     	cin >> elto;
           A.insertarHijoIzqdoB(n,elto);
-          leerDescendientes(A, A.hijoIzqdoB(n), bandera);
+          leerDescendientes(A, A.hijoIzqdoB(n));
      }
-     cout << "Inserta hijo derecho de " << A.elemento(n) <<": ('" << bandera << "' no introducir mas hijos por aqui) " << endl;
-     cin >> elto;
-             if(elto != bandera){
-                     A.insertarHijoDrchoB(n,elto);
-                     leerDescendientes(A, A.hijoDrchoB(n), bandera);
-             }
-         }
+     cout << "Hijo derecho de " << A.elemento(n) <<": " << endl;
+     if(pregunta()){
+            cin >> elto;
+            A.insertarHijoDrchoB(n,elto);
+            leerDescendientes(A, A.hijoDrchoB(n));
+     }
+}
 
 #endif  // ES_ABIN_H

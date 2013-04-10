@@ -1,5 +1,6 @@
-#include <Abin.h>
 #include <iostream>
+#include "Abin.h"
+#include "expresion.h"
 using namespace std;
 
 //Ejercicio 1. Arboles similares.
@@ -80,4 +81,11 @@ void refleRec(const Abin<T>& A, const typename Abin<T>::nodo a, Abin<T>& B, cons
 		}
 	}
 	else{/*No se hace nada.*/}//No tiene hijos, por tanto no se sigue por esa rama.
+}
+
+//EJERCICIO 3.
+
+double calcularExp(const Abin<expresion>& A)
+{
+	
 }
