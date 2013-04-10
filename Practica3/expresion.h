@@ -12,7 +12,7 @@ std::istream& operator>>(std::istream& i, expresion& c)
 {
 	char sn;
 	std::cout << "Es un operador? (s/n)" << std::endl;
-	i >> sn;
+	std::cin >> sn;
 	if(sn=='s'){
 		std::cout << "Introduce el operador: " << std::endl;
 		i >> c.operador;
