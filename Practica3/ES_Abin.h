@@ -3,6 +3,7 @@
 #include <iostream>
 //#include "Abin_vec0.h"//Estático.
 #include "Abin.h"//Dinámico.
+#include "expresion.h"
 using namespace std;
 
 template <typename T>
@@ -32,6 +33,41 @@ void imprimirDescendientes (typename Abin<T>::nodo r,const Abin<T>& A)
      }
 }
 
+template <typename T> 
+void leerAbin(Abin<T>& a){
+     if(a.arbolVacioB()){
+		 T elto, bandera;
+		 cout << "Escriba elemento 'bandera' para parar" << endl;
+		 cin >> bandera;
+		 cout << "Introduzca nodo raiz:" << endl;
+		 cin >> elto;
+		 if(elto!=bandera){
+		                   a.crearRaizB(elto);
+		                   leerDescendientes(a, a.raizB(), bandera);
+		                   }
+		 else{
+		      cout << "Fin del arbol." << endl;
+		      }
+		 }else{cout<<"Error: El arbol no estaba vacio."<<endl;}
+     }
+
+template <typename T> 
+void leerDescendientes (Abin<T>& A, typename Abin<T>::nodo n, T bandera){
+     T elto;
+     cout << "Inserta hijo izquierdo de " << A.elemento(n) <<": ('" << bandera << "' no introducir mas hijos por aqui) " << endl;
+     cin >> elto;
+     if(elto != bandera){
+          A.insertarHijoIzqdoB(n,elto);
+          leerDescendientes(A, A.hijoIzqdoB(n), bandera);
+     }
+     cout << "Inserta hijo derecho de " << A.elemento(n) <<": ('" << bandera << "' no introducir mas hijos por aqui) " << endl;
+     cin >> elto;
+             if(elto != bandera){
+                     A.insertarHijoDrchoB(n,elto);
+                     leerDescendientes(A, A.hijoDrchoB(n), bandera);
+             }
+}
+/*
 bool pregunta()
 {
 	char sn;
@@ -74,5 +110,5 @@ void leerDescendientes (Abin<T>& A, typename Abin<T>::nodo n){
             leerDescendientes(A, A.hijoDrchoB(n));
      }
 }
-
+*/
 #endif  // ES_ABIN_H
