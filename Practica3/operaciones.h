@@ -85,7 +85,42 @@ void refleRec(const Abin<T>& A, const typename Abin<T>::nodo a, Abin<T>& B, cons
 
 //EJERCICIO 3.
 
+double calculaExpRec(const Abin<expresion>& A, const typename Abin<expresion>::nodo n)
+{
+	if(A.hijoIzqdoB(n)==Abin<expresion>::NODO_NULO && A.hijoDrchoB(n)==Abin<expresion>::NODO_NULO)
+	{//Nodo es hoja, luego es un operando:
+		return A.elemento(n).operando;
+	}
+	else{//No es una hoja, por tanto, es un operador:
+		double resultado;
+		switch(A.elemento(n).operador)
+		{
+			case'+':
+			{
+				resultado=calculaExpRec(A,A.hijoIzqdoB(n)) + calculaExpRec(A,A.hijoDrchoB(n));
+				break;
+			}
+			case'-':
+			{
+				resultado=calculaExpRec(A,A.hijoIzqdoB(n)) - calculaExpRec(A,A.hijoDrchoB(n));
+				break;
+			}
+			case'*':
+			{
+				resultado=calculaExpRec(A,A.hijoIzqdoB(n)) * calculaExpRec(A,A.hijoDrchoB(n));
+				break;
+			}
+			case'/':
+			{
+				resultado=calculaExpRec(A,A.hijoIzqdoB(n)) / calculaExpRec(A,A.hijoDrchoB(n));
+				break;
+			}
+		}
+		return resultado;
+	}
+}
+
 double calcularExp(const Abin<expresion>& A)
 {
-	
+	return calculaExpRec(A,A.raizB());	
 }
