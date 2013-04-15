@@ -50,6 +50,25 @@ int profundidad (const Abin<T>& A, const typename Abin<T>::nodo n)
 //*******************************************
 
 //Ejercicio 6
+//Aquí, el ejercicio en sí:
+template <typename T>
+int desequilibrio (const Abin<T>& A)
+{
+	return desequilibrioMAX(A,A.raizB());
+}
+template <typename T>
+int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
+{
+    if(n==Abin<T>::NODO_NULO){return 0;}
+    else
+    {
+        int deseq_nodo=abs(A.altura(A.hijoIzqdoB(n)) - A.altura(A.hijoDrchoB(n)));
+        return max(deseq_nodo,max(desequilibrioMAX(A,A.hijoIzqdoB(n)),desequilibrioMAX(A,A.hijoDrchoB(n))));
+    }
+}
+
+/*
+//OTRA POSIBILIDAD: Utilizando funcion maximo(a,b,c) .
 //Se necesita una funcion maximo de 3 argumentos si se va a hacer así.
 //FUNCION QUE CALCULA EL MAXIMO DE 3 ARGUMENTOS. EL max NO VALE (2 ARGUMENTOS SOLO).
 template <typename T>
@@ -61,13 +80,6 @@ const T maximo_3 (const T& a, const T& b, const T& c)
 	if(a<x){return x;}
 	else{return a;}
 }
-//Aquí, el ejercicio en sí:
-template <typename T>
-int desequilibrio (const Abin<T>& A)
-{
-	return desequilibrioMAX(A,A.raizB());
-}
-
 template <typename T>
 int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
 {
@@ -78,21 +90,7 @@ int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
 	}
 	else{return 0;}
 }
-/*
-//OTRA POSIBILIDAD: Utilizando algorithm::max .
-template <typename T>
-int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
-{
-    if(n==Abin<T>::NODO_NULO){return 0;}
-    else
-    {
-        int deseq_nodo=abs(A.altura(A.hijoIzqdoB(n)) - A.altura(A.hijoDrchoB(n)));
-        return max(deseq_nodo,max(desequilibrioMAX(A,A.hijoIzqdoB(n)),desequilibrioMAX(A,A.hijoDrchoB(n))));
-    }
-}
 */
-
-
 
 //Ejercicio 7
 template <typename T>
@@ -105,71 +103,51 @@ bool pseudocompleto(const Abin<T>& A)
 			{//Si además, ambos existen, entonces la raíz es el penúltimo nivel y el siguiente está completo.
 				if(A.hijoIzqdoB(A.raizB())!=Abin<T>::NODO_NULO && A.hijoDrchoB(A.raizB())!=Abin<T>::NODO_NULO)
 					{ return true; }
+				else { return false; }//Solo tiene 1 hijo, que a su vez no tiene hijos.
 			}
 			else{//La altura es mayor que 1. HAY MÁS NODOS.
-				return pseudocompletRec(A,A.raizB());//Llamada recursiva.
+				if(A.altura(A.hijoIzqdoB(A.raizB())) > A.altura(A.hijoDrchoB(A.raizB())))//Rama izquierda más larga.
+				{
+					return pseudocompletRec(A,A.hijoIzqdoB(A.raizB()));//Llamada recursiva por esa rama.
+				}
+				else if(A.altura(A.hijoIzqdoB(A.raizB())) < A.altura(A.hijoDrchoB(A.raizB())))//Rama derecha más larga.
+				{
+					return pseudocompletRec(A,A.hijoDrchoB(A.raizB()));//Llamada recursiva por esa rama.
+				}
+				else if(A.altura(A.hijoIzqdoB(A.raizB())) == A.altura(A.hijoDrchoB(A.raizB())))//Ramas de igual longitud.
+				{
+					return (pseudocompletRec(A,A.hijoIzqdoB(A.raizB())) && pseudocompletRec(A,A.hijoDrchoB(A.raizB())));
+					//Llamada recursiva por ambas ramas.
+				}
 			}
 }
 
 template <typename T>
 bool pseudocompletRec(const Abin<T>& A, const typename Abin<T>::nodo n)
 {
-	if(A.hijoIzqdoB(n)==Abin<T>::NODO_NULO && A.hijoDrchoB(n)==Abin<T>::NODO_NULO){ return true; }
-	//La idea ahora es comprobar primero al hijoIzqdoB y luego al hijoDrchoB.
-	//En cada uno, primero se comprueba si la altura es 1. Si lo es, se comprueba que sus hijos
-	//sean 2 o ninguno. De lo contrario, no es pseudocompleto.
-	//Si la altura no es 1, se pasa al siguiente nivel. Así progresivamente.
-	typename Abin<T>::nodo h;//Se crea un nodo para hacer más comodo el código.
 	
-	if(A.hijoIzqdoB(n)!=Abin<T>::NODO_NULO){
-		h=A.hijoIzqdoB(n);//Primero el hijoIzqdoB(n);
-		if(A.altura(h)==1)//Los hijos de h no tienen hijos. Se comprueba la propiedad.
-		{
-			if(A.hijoIzqdoB(h)==Abin<T>::NODO_NULO && A.hijoDrchoB(h)==Abin<T>::NODO_NULO){ return true; }
-			else if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO && A.hijoDrchoB(h)!=Abin<T>::NODO_NULO){ return true; }
-				else{
-					if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO)
-					{
-						if(A.profundidad(A.hijoIzqdoB(h))==A.altura(A.raizB())){return false;}
-						//En ese caso, el nodo h está en el penúltimo nivel. Y como tiene 1 solo hijo, sería false.
-						else{return true;}//No está en el penúltimo nivel. No se puede negar que sea pseudocompleto.
-					}
-					if(A.hijoDrchoB(h)!=Abin<T>::NODO_NULO)
-					{
-						if(A.profundidad(A.hijoDrchoB(h))==A.altura(A.raizB())){return false;}
-						//En ese caso, el nodo h está en el penúltimo nivel. Y como tiene 1 solo hijo, sería false.
-						else{return true;}//No está en el penúltimo nivel. No se puede negar que sea pseudocompleto.
-					}
-				}
+	if(A.hijoIzqdoB(n)==Abin<T>::NODO_NULO && A.hijoDrchoB(n)==Abin<T>::NODO_NULO)
+	{//El nodo recibido es hoja...
+		if(A.hijoIzqdoB(A.padreB(n))!=Abin<T>::NODO_NULO && A.hijoDrchoB(A.padreB(n))==Abin<T>::NODO_NULO)
+		{//Si el padre tiene ambos hijos, significa que n tiene hermano. Nivel completo en esa rama.
+			return true;
 		}
-		else if(A.altura(h)>1){ return pseudocompletRec(A,h); }//Si la altura no es 1, se pasa al siguiente nivel.
+		else return false; //No tiene hermano, y como es hoja en el último nivel, no es pseudocompleto.
 	}
-	
-	if(A.hijoDrchoB(n)!=Abin<T>::NODO_NULO){
-		h=A.hijoDrchoB(n);//Ahora, el hijoDrchoB(n);
-		//Se realizan las mismas comprobaciones:
-		if(A.altura(h)==1)//Los hijos de h no tienen hijos. Se comprueba la propiedad.
+	else{ //No es un nodo hoja, tiene hijos.
+		if(A.altura(A.hijoIzqdoB(n)) > A.altura(A.hijoDrchoB(n)))//Rama izquierda más larga.
 		{
-			if(A.hijoIzqdoB(h)==Abin<T>::NODO_NULO && A.hijoDrchoB(h)==Abin<T>::NODO_NULO){ return true; }
-			else if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO && A.hijoDrchoB(h)!=Abin<T>::NODO_NULO){ return true; }
-				else{
-					if(A.hijoIzqdoB(h)!=Abin<T>::NODO_NULO)
-					{
-						if(A.profundidad(A.hijoIzqdoB(h))==A.altura(A.raizB())){return false;}
-						//En ese caso, el nodo h está en el penúltimo nivel. Y como tiene 1 solo hijo, sería false.
-						else{return true;}//No está en el penúltimo nivel. No se puede negar que sea pseudocompleto.
-					}
-					if(A.hijoDrchoB(h)!=Abin<T>::NODO_NULO)
-					{
-						if(A.profundidad(A.hijoDrchoB(h))==A.altura(A.raizB())){return false;}
-						//En ese caso, el nodo h está en el penúltimo nivel. Y como tiene 1 solo hijo, sería false.
-						else{return true;}//No está en el penúltimo nivel. No se puede negar que sea pseudocompleto.
-					}
-				}
+			return pseudocompletRec(A,A.hijoIzqdoB(n));//Llamada recursiva por esa rama.
 		}
-		else if(A.altura(h)>1){ return pseudocompletRec(A,h); }//Si la altura no es 1, se pasa al siguiente nivel.
+		else if(A.altura(A.hijoIzqdoB(n)) < A.altura(A.hijoDrchoB(n)))//Rama derecha más larga.
+		{
+			return pseudocompletRec(A,A.hijoDrchoB(n));//Llamada recursiva por esa rama.
+		}
+		else if(A.altura(A.hijoIzqdoB(n)) == A.altura(A.hijoDrchoB(n)))//Ramas de igual longitud.
+		{
+			return (pseudocompletRec(A,A.hijoIzqdoB(n)) && pseudocompletRec(A,A.hijoDrchoB(n)));
+			//Llamada recursiva por ambas ramas.
+		}
 	}
 }
-
-
 #endif
