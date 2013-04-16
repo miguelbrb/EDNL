@@ -96,30 +96,8 @@ int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
 template <typename T>
 bool pseudocompleto(const Abin<T>& A)
 {
-	if(A.arbolVacioB()){return false;}//Arbol vacio. No puede ser pseudocompleto.
-	else if(A.hijoIzqdoB(A.raizB())==Abin<T>::NODO_NULO && A.hijoDrchoB(A.raizB())==Abin<T>::NODO_NULO)
-			{ return false; }//La raíz no tiene hijos. No es el penúltimo nivel, sino el último. No pseudocompleto.
-		else if(A.altura(A.raizB())==1)//Solo la raíz tiene hijos.
-			{//Si además, ambos existen, entonces la raíz es el penúltimo nivel y el siguiente está completo.
-				if(A.hijoIzqdoB(A.raizB())!=Abin<T>::NODO_NULO && A.hijoDrchoB(A.raizB())!=Abin<T>::NODO_NULO)
-					{ return true; }
-				else { return false; }//Solo tiene 1 hijo, que a su vez no tiene hijos.
-			}
-			else{//La altura es mayor que 1. HAY MÁS NODOS.
-				if(A.altura(A.hijoIzqdoB(A.raizB())) > A.altura(A.hijoDrchoB(A.raizB())))//Rama izquierda más larga.
-				{
-					return pseudocompletRec(A,A.hijoIzqdoB(A.raizB()));//Llamada recursiva por esa rama.
-				}
-				else if(A.altura(A.hijoIzqdoB(A.raizB())) < A.altura(A.hijoDrchoB(A.raizB())))//Rama derecha más larga.
-				{
-					return pseudocompletRec(A,A.hijoDrchoB(A.raizB()));//Llamada recursiva por esa rama.
-				}
-				else if(A.altura(A.hijoIzqdoB(A.raizB())) == A.altura(A.hijoDrchoB(A.raizB())))//Ramas de igual longitud.
-				{
-					return (pseudocompletRec(A,A.hijoIzqdoB(A.raizB())) && pseudocompletRec(A,A.hijoDrchoB(A.raizB())));
-					//Llamada recursiva por ambas ramas.
-				}
-			}
+	if (A.arbolVacioB() || A.altura(A.raizB()) == 0){ return true; }//Arbol vacío o raiz hoja: Pseudocompleto.
+    else return pseudocompletRec(A, A.raizB());//Llamada recursiva.
 }
 
 template <typename T>
@@ -150,4 +128,40 @@ bool pseudocompletRec(const Abin<T>& A, const typename Abin<T>::nodo n)
 		}
 	}
 }
+
+/*//Versión Sergi:
+template <typename T>
+bool pseudoCompletoRec(const Abin<T>& a, typename Abin<T>::nodo n) {
+    //defino 3 alias útiles.
+    typename Abin<T>::nodo nulo = Abin<T>::NODO_NULO;
+    typename Abin<T>::nodo hizq = a.hijoIzqdoB(n);
+    typename Abin<T>::nodo hder = a.hijoDrchoB(n);
+    
+    if (hizq == nulo && hder == nulo) { //si el nodo hoja
+        if (a.hijoIzqdoB(a.padreB(n)) == nulo || a.hijoDrchoB(a.padreB(n)) == nulo) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        int altSubArbIzq = (hizq == nulo) ? -1 : a.altura(hizq);
+        int altSubArbDer = (hder == nulo) ? -1 : a.altura(hder);
+        //si las alturas de los sub-árboles son diferentes
+        if (altSubArbIzq > altSubArbDer) {
+            return pseudoCompletoRec(a, hizq);
+        } else if (altSubArbDer > altSubArbIzq) {
+            return pseudoCompletoRec(a, hder);
+        } else {
+            //si las alturas de los sub-árboles coinciden
+            bool porlaDer = true;
+            bool porlaIzq = true;
+            porlaIzq = (hizq == nulo) ? true : pseudoCompletoRec(a, hizq);
+            if (porlaIzq) {
+                porlaDer = (hder == nulo) ? true : pseudoCompletoRec(a, hder);
+            }
+            return (porlaIzq && porlaDer);
+        }
+    }
+}
+*/
 #endif
