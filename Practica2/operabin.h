@@ -96,23 +96,18 @@ int desequilibrioMAX(const Abin<T>& A, const typename Abin<T>::nodo n)
 template <typename T>
 bool pseudocompleto(const Abin<T>& A)
 {
-	if (A.arbolVacioB() || A.altura(A.raizB()) == 0){ return true; }//Arbol vacío o raiz hoja: Pseudocompleto.
-    else return pseudocompletRec(A, A.raizB());//Llamada recursiva.
+	return pseudocompletRec(A, A.raizB());//Llamada recursiva.
 }
 
 template <typename T>
 bool pseudocompletRec(const Abin<T>& A, const typename Abin<T>::nodo n)
 {
-	
-	if(A.hijoIzqdoB(n)==Abin<T>::NODO_NULO && A.hijoDrchoB(n)==Abin<T>::NODO_NULO)
-	{//El nodo recibido es hoja...
-		if(A.hijoIzqdoB(A.padreB(n))!=Abin<T>::NODO_NULO && A.hijoDrchoB(A.padreB(n))==Abin<T>::NODO_NULO)
-		{//Si el padre tiene ambos hijos, significa que n tiene hermano. Nivel completo en esa rama.
-			return true;
-		}
-		else return false; //No tiene hermano, y como es hoja en el último nivel, no es pseudocompleto.
+	if(n==Abin<T>::NODO_NULO){ return true; }//Si el nodo es nulo, Pseudocompleto. Así se controla el árbol vacío.
+	else if(A.altura(n)==1 && ((A.hijoIzqdoB(n)==Abin<T>::NODO_NULO && A.hijoDrchoB(n)!=Abin<T>::NODO_NULO) || (A.hijoIzqdoB(n)!=Abin<T>::NODO_NULO && A.hijoDrchoB(n)==Abin<T>::NODO_NULO)))
+	{//El nodo recibido tiene altura 1, y solo tiene un hijo: NO Pseudocompleto.
+			return false;
 	}
-	else{ //No es un nodo hoja, tiene hijos.
+	else{ //No tiene altura 1.
 		if(A.altura(A.hijoIzqdoB(n)) > A.altura(A.hijoDrchoB(n)))//Rama izquierda más larga.
 		{
 			return pseudocompletRec(A,A.hijoIzqdoB(n));//Llamada recursiva por esa rama.
