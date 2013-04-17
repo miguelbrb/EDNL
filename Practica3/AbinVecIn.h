@@ -23,17 +23,21 @@ template <typename T> class Abin{
 		int nNodos;
 		int maxNodos;
 		T ELTO_NULO;
-		int profundidad(nodo n);
-		int profundidadRec(nodo n);
-}
+		int profundidad(nodo n) const;
+		int profundidadRec(nodo n, nodo m, int tam) const;
+};
+//Definición NODO_NULO
+template <typename T>
+const typename Abin<T>::nodo Abin<T>::NODO_NULO(-1);
+
 //Funciones privadas:
 template <typename T>
-int Abin<T>::profundidad(Abin<T>::nodo n)
+int Abin<T>::profundidad(Abin<T>::nodo n) const
 {
 	return profundidadRec(n,maxNodos/2,maxNodos);
 }
 template <typename T>
-int Abin<T>::profundidadRec(Abin<T>::nodo n, Abin<T>::nodo m,int tam)
+int Abin<T>::profundidadRec(Abin<T>::nodo n, Abin<T>::nodo m, int tam) const
 {
 	if(n == m) { return 0; }//Se encuentra el nodo.
 	else{
@@ -41,16 +45,11 @@ int Abin<T>::profundidadRec(Abin<T>::nodo n, Abin<T>::nodo m,int tam)
 		if(n<m){ return 1+profundidadRec(n,m/2,tam);}//Llamada recursiva a esa rama, subarbol izquierdo de m.
 		if(n>m){ return 1+profundidadRec(n,tam/2+m,tam);}//Llamada recursiva a la otra rama, subarbol derecho de m.
 	}
-	
 }
-
-//Definición NODO_NULO
-template <typename T>
-const typename Abin<T>::nodo Abin<T>::NODO_NULO(-1);
 
 //Constructor:
 template <typename T>
-Abin<T>::Abin(int alturaMax, const T& e_nulo): maxNodos(pow(2,++alturaMax)), ELTO_NULO(e_nulo), nNodos(n)
+Abin<T>::Abin(int alturaMax, const T& e_nulo): maxNodos(pow(2,++alturaMax)), ELTO_NULO(e_nulo), nNodos(0)
 {
 //Se marcan todas las celdas como libres:
 	for(nodo n=0;n<maxNodos;n++)
@@ -85,13 +84,13 @@ void Abin<T>::insertarHijoDrchoB(Abin<T>::nodo n, const T& e)
 }
 
 template <typename T>
-typename Abin<T>::nodo Abin<T>::raizB()
+typename Abin<T>::nodo Abin<T>::raizB() const
 {
 	return maxNodos/2;
 }
 
 template <typename T>
-typename Abin<T>::nodo Abin<T>::padreB(Abin<T>::nodo n)
+typename Abin<T>::nodo Abin<T>::padreB(Abin<T>::nodo n) const
 {
 	assert(n > 0 && n < maxNodos);//El nodo pertenece al árbol.
 	if( n%((maxNodos+1)/pow(2,profundidad(n)-1)) == (((maxNodos+1)/pow(2,profundidad(n)+1))-1) )
@@ -100,14 +99,14 @@ typename Abin<T>::nodo Abin<T>::padreB(Abin<T>::nodo n)
 }
 
 template <typename T>
-typename Abin<T>::nodo Abin<T>::hijoIzqdoB(Abin<T>::nodo n)
+typename Abin<T>::nodo Abin<T>::hijoIzqdoB(Abin<T>::nodo n) const
 {
 	assert(n > 0 && n < maxNodos);//El nodo pertenece al árbol.
 	return (n-(maxNodos+1))/pow(2,profundidad(n)+2);
 }
 
 template <typename T>
-typename Abin<T>::nodo Abin<T>::hijoIzqdoB(Abin<T>::nodo n)
+typename Abin<T>::nodo Abin<T>::hijoDrchoB(Abin<T>::nodo n) const
 {
 	assert(n > 0 && n < maxNodos);//El nodo pertenece al árbol.
 	return (n+(maxNodos+1))/pow(2,profundidad(n)+2);
