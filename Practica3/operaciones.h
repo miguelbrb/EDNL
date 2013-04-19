@@ -68,7 +68,6 @@ template <typename T>
 void refleRec(const Abin<T>& A, const typename Abin<T>::nodo a, Abin<T>& B, const typename Abin<T>::nodo b)
 {
 	if(A.hijoIzqdoB(a)!=Abin<T>::NODO_NULO || A.hijoDrchoB(a)!=Abin<T>::NODO_NULO){//Si tiene algún hijo...
-		
 		if(A.hijoIzqdoB(a)!=Abin<T>::NODO_NULO)
 		{
 			B.insertarHijoDrchoB(b,A.elemento(A.hijoIzqdoB(a)));
