@@ -67,48 +67,4 @@ void leerDescendientes (Abin<T>& A, typename Abin<T>::nodo n, T bandera){
                      leerDescendientes(A, A.hijoDrchoB(n), bandera);
              }
 }
-/*
-bool pregunta()
-{
-	char sn;
-	cout << "Desea introducir un nodo? (s/n)" << endl;
-	cin >> sn;
-	return (sn=='s');
-}
-
-
-template <typename T> 
-void leerAbin(Abin<T>& a){
-     if(a.arbolVacioB()){
-		T elto;
-		if(pregunta()){
-			 cout << "Introduzca nodo raiz:" << endl;
-			 cin >> elto;
-		     a.crearRaizB(elto);
-			leerDescendientes(a, a.raizB());
-			}
-			 else{
-				  cout << "Fin del arbol." << endl;
-				  }
-				 
-		 }else{cout<<"Error: El arbol no estaba vacio."<<endl;}
-     }
-
-template <typename T> 
-void leerDescendientes (Abin<T>& A, typename Abin<T>::nodo n){
-     T elto;
-     cout << "Hijo izquierdo de " << A.elemento(n) <<": " << endl;
-     if(pregunta()){
-     	cin >> elto;
-          A.insertarHijoIzqdoB(n,elto);
-          leerDescendientes(A, A.hijoIzqdoB(n));
-     }
-     cout << "Hijo derecho de " << A.elemento(n) <<": " << endl;
-     if(pregunta()){
-            cin >> elto;
-            A.insertarHijoDrchoB(n,elto);
-            leerDescendientes(A, A.hijoDrchoB(n));
-     }
-}
-*/
 #endif  // ES_ABIN_H
