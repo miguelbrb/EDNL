@@ -19,12 +19,12 @@ void imprimirAgen(const Agen<T>& A)
 template <typename T>
 void imprimirDescendientes (typename Agen<T>::nodo r,const Agen<T>& A)
 {
-     if (A.hijoIzqdo(r) != Abin<T>::NODO_NULO) {
+     if (A.hijoIzqdo(r) != Agen<T>::NODO_NULO) {
         cout << "Hijo izqdo de " << A.elemento(r) << ": "
         << A.elemento(A.hijoIzqdo(r)) << endl;
         imprimirDescendientes(A.hijoIzqdo(r), A);
      }
-     if (A.hermDrcho(r) != Abin<T>::NODO_NULO) {
+     if (A.hermDrcho(r) != Agen<T>::NODO_NULO) {
         cout << "Hermano derecho de " << A.elemento(r) << ": "
         << A.elemento(A.hermDrcho(r)) << endl;
         imprimirDescendientes(A.hermDrcho(r), A);
@@ -58,12 +58,14 @@ void leerDescendientes (Agen<T>& A, typename Agen<T>::nodo n, T bandera){
           A.insertarHijoIzqdo(n,elto);
           leerDescendientes(A, A.hijoIzqdo(n), bandera);
      }
+     if(n!= A.raiz()){
      cout << "Inserta hermano derecho de " << A.elemento(n) <<": ('" << bandera << "' no introducir mas hijos por aqui) " << endl;
      cin >> elto;
              if(elto != bandera){
                      A.insertarHermDrcho(n,elto);
                      leerDescendientes(A, A.hermDrcho(n), bandera);
              }
-         }
+     }
+}
 
 #endif  // ES_AGEN_H
