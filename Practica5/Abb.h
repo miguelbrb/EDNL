@@ -1,31 +1,33 @@
 #ifndef ABB_H
 #define ABB_H
 #include <cassert>
+#include <Abin.h>
 
 template <typename T> class Abb {
-struct celda;   // declaración adelantada privada
-public:
-typedef celda* nodo;
-static const nodo NODO_NULO;
-explicit Abb(nodo n = NODO_NULO);      // constructor
-nodo buscar(const T& e) const;
-void insertar(const T& e);
-void eliminar(const T& e);
-bool vacio() const;
-Abb(const Abb<T>& a);                 // ctor. de copia
-Abb<T>& operator =(const Abb<T>& a);  // asig. árboles
-~Abb(); // destructor
-private:
-//Abin<T> c1;     
-struct celda {
-T elto;
-nodo hizq, hder;
-celda(const T& e): elto(e),
-hizq(NODO_NULO), hder(NODO_NULO) {}
-};
-nodo r;   // nodo raíz del árbol
-T borrarMin(nodo& n);
-nodo copiar(nodo n);
+	struct celda;   // declaración adelantada privada
+	public:
+		typedef celda* nodo;
+		static const nodo NODO_NULO;
+		explicit Abb(nodo n = NODO_NULO);      // constructor
+		nodo buscar(const T& e) const;
+		void insertar(const T& e);
+		void eliminar(const T& e);
+		bool vacio() const;
+		Abb(const Abb<T>& a);                 // ctor. de copia
+		Abb<T>& operator =(const Abb<T>& a);  // asig. árboles
+		~Abb(); // destructor
+		operator Abin<T>() const;//Ejercicio 1 P5.
+
+	private:    
+		struct celda {
+			T elto;
+			nodo hizq, hder;
+			celda(const T& e): elto(e),
+			hizq(NODO_NULO), hder(NODO_NULO) {}
+		};
+		nodo r;   // nodo raíz del árbol
+		T borrarMin(nodo& n);
+		nodo copiar(nodo n);
 };
 /* Definición del nodo nulo */
 template <typename T>
@@ -168,5 +170,36 @@ m->hder = copiar(n->hder); // copiar subárbol drcho.
 }
 return m;
 }
+
+template <typename T>
+Abb<T>::operator Abin<T>() const
+{
+	Abin<T> a;
+	
+	if(r != NODO_NULO)
+	{
+		a.r = new typename Abin<T>::celda(r->elto);
+		if(r->hizq != NODO_NULO)
+		{
+			Abb<T> abbi(r->hizq);
+			Abin<T> ai(abbi);
+			a.r->hizq = ai.r;
+			ai.r->padre = a.r;
+			abbi.r = NODO_NULO;
+			ai.r = Abin<T>::NODO_NULO;
+		}
+		if(r->hder != NODO_NULO)
+		{
+			Abb<T> abbd(r->hder);
+			Abin<T> ad(abbd);
+			a.r->hder = ad.r;
+			ad.r->padre = a.r;
+			abbd.r = NODO_NULO;
+			ad.r = Abin<T>::NODO_NULO;
+		}
+	}	
+	return a;
+}
+
 
 #endif // ABB_H
