@@ -44,15 +44,15 @@ int alturaAgenMax(const Agen<T>& a, const typename Agen<T>::nodo  n)
 {
 	if(n==Agen<T>::NODO_NULO) { return -1; }
 	else{
-		int altura = alturaAgenMax(a,a.hijoIzqdo(n));//Se calcula la altura del hijoIzqdo, que se usa como mínimo.
-		typename Agen<T>::nodo her=a.hermDrcho(n);
-		where(herm!=Agen<T>::NODO_NULO)
+		typename Agen<T>::nodo h=a.hijoIzqdo(n);
+		int altura = alturaAgenMax(a,h);//Se calcula la altura del hijoIzqdo, que se usa como mínimo.
+		while(h!=Agen<T>::NODO_NULO)
 		{
-			altura=max(altura, alturaAgenMax(a,her);//Se va calculando la altura de los hermanos y el máximo entre
+			altura=max(altura, alturaAgenMax(a,a.hermDrcho(h)));//Se va calculando la altura de los hermanos y el máximo entre
 													//estas alturas.
-			her=a.hermDrcho(her);
+			h=a.hermDrcho(h);
 		}
-		return 1+altura;
+		return (1+altura);
 	}
 }
 
@@ -61,15 +61,15 @@ int alturaAgenMin(const Agen<T>& a, const typename Agen<T>::nodo  n)
 {
 	if(n==Agen<T>::NODO_NULO) { return -1; }
 	else{
-		int altura = alturaAgenMax(a,a.hijoIzqdo(n));//Se calcula la altura del hijoIzqdo, que se usa como máximo.
-		typename Agen<T>::nodo her=a.hermDrcho(n);
-		where(herm!=Agen<T>::NODO_NULO)
+		typename Agen<T>::nodo h=a.hijoIzqdo(n);
+		int altura = alturaAgenMax(a,h);//Se calcula la altura del hijoIzqdo, que se usa como máximo.
+		while(h!=Agen<T>::NODO_NULO && a.hermDrcho(h)!=Agen<T>::NODO_NULO)
 		{
-			altura=min(altura, alturaAgenMax(a,her);//La altura que se calcula es la máxima de cada nodo, para luego
+			altura=min(altura, alturaAgenMax(a,a.hermDrcho(h)));//La altura que se calcula es la máxima de cada nodo, para luego
 													//calcular el mínimo de estas alturas máximas.
-			her=a.hermDrcho(her);
+			h=a.hermDrcho(h);
 		}
-		return 1+altura;
+		return (1+altura);
 	}
 }
 
