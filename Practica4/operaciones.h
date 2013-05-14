@@ -81,29 +81,77 @@ int desequilibrioAgen(const Agen<T>& a)
 
 //Ejercicio 5. Poda de Agen.
 //Función para la búsqueda del nodo.
-typename Agen<T>::nodo& buscar(Agen<T>& a, const typename Agen<T>::nodo& n, int x)
+template <typename T>
+typename Agen<T>::nodo buscarAgen(const Agen<T>& a, typename Agen<T>::nodo n, const T& x)
 {
-	if(n==Agen<T>::NODO_NULO){ return Agen<T>::NODO_NULO; }
-	else
-	{
-		if(a.elemento(n)==x){ return n; }
-		else{
-			if(a.hijoIzqdo(n)!=Agen<T>::NODO_NULO){ return buscar(a,a.hijoIzqdo(n),x);}
-			typename Agen<T>::nodo aux=a.hermDrcho(a.hijoIzqdo(n));//Así, se salta la posibilidad del hermDrcho(raiz).
-			typename Agen<T>::nodo encontrado=Agen<T>::NODO_NULO;
-			while(aux!=Agen<T>::NODO_NULO && encontrado==Agen<T>::NODO_NULO)
-			{
-				encontrado=buscar(a,aux,x);
-				aux=a.hermDrcho(aux);
-			}
-			return encontrado;
+	if(n == Agen<T>::NODO_NULO || a.elemento(n) == x){ return n; }
+	else{
+		typename Agen<T>::nodo encontrado = Agen<T>::NODO_NULO;
+		encontrado = buscarAgen(a, a.hijoIzqdo(n), x);
+		if(encontrado == Agen<T>::NODO_NULO)
+		{
+			return buscarAgen(a, a.hermDrcho(n), x);			
+		}
+		else return encontrado;
+	}
+}
+
+//Función para eliminar los hijos y hermanos de un nodo.
+template <typename T>
+void eliminarNodos(Agen<T>& a, typename Agen<T>:: nodo n)
+{
+	if(n!=Agen<T>::NODO_NULO){
+		if(a.hijoIzqdo(n)!=Agen<T>::NODO_NULO)//El nodo tiene hijoIzqdo.
+		{
+			eliminarNodos(a,a.hijoIzqdo(n));//Se poda ese hijo...
+			a.eliminarHijoIzqdo(n);//... y se elimina.
+		}
+		if(a.hermDrcho(n)!=Agen<T>::NODO_NULO)//El nodo
+		{
+			eliminarNodos(a,a.hermDrcho(n));
+			a.eliminarHermDrcho(n);
 		}
 	}
 }
 
-
-
-void poda(Agen<T>& a, int x)
+//Función para la poda recursiva
+template <typename T>
+void podaAgenRec(Agen<T>& a, typename Agen<T>:: nodo n)
 {
-	
+	if(n==a.raiz())
+	{
+		eliminarNodos(a,a.hijoIzqdo(n));//Se elimina a los descendientes menos a su hijoIzqdo...
+		a.eliminarHijoIzqdo(n);//...y ahora se elimina al hijoIzqdo.
+		a.eliminarRaiz();//Por último, la raiz.
+	}
+	else{
+		typename Agen<T>::nodo p;
+		eliminarNodos(a,a.hijoIzqdo(n));//Se elimina a los descendientes menos a su hijoIzqdo...
+		a.eliminarHijoIzqdo(n);//...y ahora se elimina al hijoIzqdo.
+		p=a.padre(n);//Se pasa al padre.
+		if(a.hijoIzqdo(p)==n){//n es el hijoIzqdo
+			a.eliminarHijoIzqdo(p);
+		}
+		else{//n no es el hijoIzqdo... sino un hermano de este.
+			p=a.hijoIzqdo(p);//Se pasa al hijoIzqdo del padre de n.
+			while(a.hermDrcho(p)!=n)//Se busca n entre los hermanos.
+				p=a.hermDrcho(p);
+			a.eliminarHermDrcho(p);//Se elimina finalmente a n.
+		}
+	}
 }
+
+//Función que llama a las demás. Función de poda principal.
+template <typename T>
+void podaAgen(Agen<T>& a, const T& x)
+{
+	typename Agen<T>::nodo encontrado=buscarAgen(a,a.raiz(),x);//Busca el nodo, y lo almacena.
+	if(encontrado!=Agen<T>::NODO_NULO)//Se elimina la posibilidad de "podar" nodos nulos.
+	{
+		podaAgenRec(a,encontrado);
+		std::cout << "Nodo podado." << std::endl;
+	}
+	else std::cout << "Nodo no encontrado." << std::endl;
+}
+
+
