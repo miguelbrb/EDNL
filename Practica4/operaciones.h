@@ -1,7 +1,7 @@
 #include "Agen.h"
-#include "ES_Agen.h"
+#include "ES_Agen.h"//Ejercicio 1.
 #include <algorithm>
-
+//Ejercicio 2. Grado de un Agen.
 template <typename T>
 int gradoAgen(const Agen<T>& a)
 {
@@ -9,7 +9,7 @@ int gradoAgen(const Agen<T>& a)
 }
 
 template <typename T>
-int calculaGrado(const Agen<T>& a, typename const Agen<T>::nodo& n)
+int calculaGrado(const Agen<T>& a, const typename Agen<T>::nodo& n)
 {
 	int grado = 0;
 	if(n==Agen<T>::NODO_NULO){ return 0; }
@@ -25,9 +25,9 @@ int calculaGrado(const Agen<T>& a, typename const Agen<T>::nodo& n)
 	//Si resultase que n no tiene hermanos, su grado sería 1, por el "++grado" de la llamada recursiva.
 	//El grado resultante es el máximo del grado de los hijos de n, y de los hijos de sus hermanos.
 }
-
+//Ejercicio 3. Profundidad
 template <typename T>
-int profundidadAgen(const Agen<T>& a, typename const Agen<T>::nodo n)
+int profundidadAgen(const Agen<T>& a, const typename Agen<T>::nodo n)
 {
 	if(n!=a.raiz()){ return 0; }
 	else{
@@ -35,18 +35,3 @@ int profundidadAgen(const Agen<T>& a, typename const Agen<T>::nodo n)
 	}
 }
 
-template <typename T>
-int desequilibrioAgen(const Agen<T>& A)
-{
-	return desequilibrioMAX(A,A.raizB());
-}
-template <typename T>
-int desequilibrioMAX(const Agen<T>& A, const typename Agen<T>::nodo n)
-{
-    if(n==Abin<T>::NODO_NULO){return 0;}
-    else
-    {
-        int deseq_nodo=abs(A.altura(A.hijoIzqdoB(n)) - A.altura(A.hijoDrchoB(n)));
-        return max(deseq_nodo,max(desequilibrioMAX(A,A.hijoIzqdoB(n)),desequilibrioMAX(A,A.hijoDrchoB(n))));
-    }
-}
