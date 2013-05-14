@@ -7,9 +7,11 @@ using namespace std;
 
 int main()
 {
-	Agen<char> t;
+	Agen<int> t;
 	leerAgen(t);
 	imprimirAgen(t);
 	cout << "Grado del arbol: " << gradoAgen(t) << endl;
 	cout << "Desequilibrio: " << desequilibrioAgen(t) << endl;
+	podaAgen(t,3);
+	imprimirAgen(t);
 }
