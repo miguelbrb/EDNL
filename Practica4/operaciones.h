@@ -79,4 +79,31 @@ int desequilibrioAgen(const Agen<T>& a)
 	return abs(alturaAgenMax(a, a.raiz()) - alturaAgenMin(a,a.raiz()));
 }
 
+//Ejercicio 5. Poda de Agen.
+//Función para la búsqueda del nodo.
+typename Agen<T>::nodo& buscar(Agen<T>& a, const typename Agen<T>::nodo& n, int x)
+{
+	if(n==Agen<T>::NODO_NULO){ return Agen<T>::NODO_NULO; }
+	else
+	{
+		if(a.elemento(n)==x){ return n; }
+		else{
+			if(a.hijoIzqdo(n)!=Agen<T>::NODO_NULO){ return buscar(a,a.hijoIzqdo(n),x);}
+			typename Agen<T>::nodo aux=a.hermDrcho(a.hijoIzqdo(n));//Así, se salta la posibilidad del hermDrcho(raiz).
+			typename Agen<T>::nodo encontrado=Agen<T>::NODO_NULO;
+			while(aux!=Agen<T>::NODO_NULO && encontrado==Agen<T>::NODO_NULO)
+			{
+				encontrado=buscar(a,aux,x);
+				aux=a.hermDrcho(aux);
+			}
+			return encontrado;
+		}
+	}
+}
 
+
+
+void poda(Agen<T>& a, int x)
+{
+	
+}
