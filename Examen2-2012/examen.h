@@ -79,7 +79,7 @@ bool AbinEsAbbRec(const Abin<T>& a, const typename Abin<T>::nodo n, const typena
 		{//hder va a ser mayor que el padre de n si es mayor que n.
 			return AbinEsAbbRec(a,hder,n); //Solo rama derecha. La otra no existe.
 		}
-		else if(hder==nulo && hizq!=nulo && a.elemento(hizq) < a.elemento(n) && a.elemento(hizq) < a.elemento(p))
+		else if(hder==nulo && hizq!=nulo && a.elemento(hizq) < a.elemento(n) && a.elemento(hizq) > a.elemento(p))
 		{//hizq es mayor que el padre de n. IMPORTANTE ESTO. && a.elemento(hder) < a.elemento(p)
 			return AbinEsAbbRec(a,hizq,n);//Solo rama izquierda. La otra no existe.
 		}
