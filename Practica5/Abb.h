@@ -1,7 +1,7 @@
 #ifndef ABB_H
 #define ABB_H
 #include <cassert>
-#include <Abin.h>
+#include "Abin.h"
 
 template <typename T> class Abb {
 	struct celda;   // declaración adelantada privada
@@ -17,6 +17,7 @@ template <typename T> class Abb {
 		Abb<T>& operator =(const Abb<T>& a);  // asig. árboles
 		~Abb(); // destructor
 		operator Abin<T>() const;//Ejercicio 1 P5.
+		void poda(const T& e);//Ejercicio 2 P5.
 
 	private:    
 		struct celda {
@@ -28,6 +29,7 @@ template <typename T> class Abb {
 		nodo r;   // nodo raíz del árbol
 		T borrarMin(nodo& n);
 		nodo copiar(nodo n);
+		void podaRec(nodo n);
 };
 /* Definición del nodo nulo */
 template <typename T>
@@ -171,6 +173,7 @@ m->hder = copiar(n->hder); // copiar subárbol drcho.
 return m;
 }
 
+//Ejercicio 1.P5.
 template <typename T>
 Abb<T>::operator Abin<T>() const
 {
@@ -201,5 +204,31 @@ Abb<T>::operator Abin<T>() const
 	return a;
 }
 
+//Ejercicio 2. P5.
+template <typename T>
+void Abb<T>::poda(const T& e)
+{
+	typename Abb<T>::nodo n=buscar(e);
+	if(n!=NODO_NULO)
+	{
+		podaRec(n);
+		eliminar(n);
+	}
+}
+
+template <typename T>
+void Abb<T>::podaRec(typename Abb::nodo n)
+{
+	if(n->hizq != NODO_NULO)
+	{
+		podaRec(n->hizq);
+		eliminar(n->hizq->elto);
+	}
+	if(n->hder != NODO_NULO)
+	{
+		podaRec(n->hizq);
+		eliminar(n->hder->elto);
+	}
+}
 
 #endif // ABB_H
