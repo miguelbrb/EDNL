@@ -128,41 +128,36 @@ template <typename T> void Apo<T>::insertarminmax(const T& e)
 {
 	assert(ultimo < maxNodos-1);
 	nodo p= ++ultimo;
+	int nivel=floor(log(p+1)/log(2));
 	
-	if(p>2)
+	std::cout << "Nivel: " << std::endl;
+	
+	while(p>2)
 	{
-		int nivel=floor(log(p+1)/log(2));
+		//Entra en bucle
+		int padre=nodos[(p-1)/2];
+		int abuelo=nodos[(p-3)/4];
 		
-		std::cout << "Nivel: " << std::endl;
-		
-		while(p>2)
+		if(nivel%2 == 0) //Es par el nivel.
 		{
-			//Entra en bucle
-			int padre=nodos[(p-1)/2];
-			int abuelo=nodos[(p-3)/4];
-			
-			if(nivel%2 == 0) //Es par el nivel.
-			{
-				if(!(abuelo<=e && e<=padre)){
-					nodos[p]=padre;
-					p=(p-1)/2;
-					std::cout << "Cambio por " << padre << std::endl;
-					nivel=floor(log(p+1)/log(2));
-				}else
-					nivel=1;
-			}else{//Nivel impar
-				if( !(padre<=e && e<=abuelo)){
-					nodos[p]=abuelo;
-					p=(p-3)/4;
-					std::cout << "Cambio por " << abuelo << std::endl;
-					nivel=floor(log(p+1)/log(2));
-				}else
-					nivel=1;
-			}
+			if(!(abuelo<=e && e<=padre)){
+				nodos[p]=padre;
+				p=(p-1)/2;
+				std::cout << "Cambio por " << padre << std::endl;
+				nivel=floor(log(p+1)/log(2));
+			}else
+				nivel=1;
+		}else{//Nivel impar
+			if( !(padre<=e && e<=abuelo)){
+				nodos[p]=abuelo;
+				p=(p-3)/4;
+				std::cout << "Cambio por " << abuelo << std::endl;
+				nivel=floor(log(p+1)/log(2));
+			}else
+				nivel=1;
 		}
-		nodos[p]=e;
-	}else{
-		insertar(e);}
+	}
+	nodos[p]=e;
 }
 
 
