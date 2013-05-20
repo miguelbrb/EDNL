@@ -6,7 +6,6 @@
 #include <vector>
 #include <cmath>
 #include "Agen.h"
-
 using namespace std;
 
 enum Color{B,N,I};
@@ -18,7 +17,9 @@ struct cerda{
 	cerda(Color c_, double XI_, double YI_, double XD_, double YD_): c(c_), XI(XI_), YI(YI_), XD(XD_), YD(YD_){}
 };
 
-void figuraplanaRec(const Agen<cerda>& a, Color **c, typename Agen<cerda>::nodo n);
+typedef vector<vector<Color> > FiguraPlana;
+
+void figuraplanaRec(const Agen<cerda>& a, FiguraPlana& v, typename Agen<cerda>::nodo n);
 
 int alturaAgenCua(const Agen<cerda>& a, typename Agen<cerda>::nodo n){
 
@@ -26,24 +27,23 @@ int alturaAgenCua(const Agen<cerda>& a, typename Agen<cerda>::nodo n){
 	
 		return -1;
 	}else{
-		return 1 + std::max(std::max(alturaAgenCua(a, a.hijoIzqdo(n)), 
-				alturaAgenCua(a, a.hermDrcho(a.hijoIzqdo(n)))),
-			std::max(alturaAgenCua(a, a.hermDrcho(a.hermDrcho(a.hijoIzqdo(n)))), 
-			alturaAgenCua(a, a.hermDrcho(a.hermDrcho(a.hermDrcho(a.hijoIzqdo(n)))))));
+		return 1 + max(max(alturaAgenCua(a, a.hijoIzqdo(n)), 
+				alturaAgenCua(a, a.hermDrcho(a.hijoIzqdo(n)))), 
+			max(alturaAgenCua(a, a.hermDrcho(a.hermDrcho(a.hijoIzqdo(n)))), 
+		alturaAgenCua(a, a.hermDrcho(a.hermDrcho(a.hermDrcho(a.hijoIzqdo(n)))))));
 	}
 }
 
-void figuraplana(const Agen<cerda>& a, Color **vec){
+FiguraPlana figuraplana(const Agen<cerda>& a){
 	
-	//const int k = 0;
 	int k = alturaAgenCua(a, a.raiz());
-	//delete[] vec;
-	vec = new Color[10][10];//[pow(2,k)][pow(2,k)];
+	int n = pow(2,k);
+	FiguraPlana vec(n,vector<Color>(n,I));
 	figuraplanaRec(a, vec, a.raiz());
-	//return vec;
+	return vec;
 }
 
-void figuraplanaRec(const Agen<cerda>& a, Color **v, typename Agen<cerda>::nodo n){
+void figuraplanaRec(const Agen<cerda>& a, FiguraPlana& v, typename Agen<cerda>::nodo n){
 
 	if(a.elemento(n).c != I){
 		for(int i = a.elemento(n).XI; i<a.elemento(n).XD; i++){
@@ -59,6 +59,5 @@ void figuraplanaRec(const Agen<cerda>& a, Color **v, typename Agen<cerda>::nodo 
 		figuraplanaRec(a, v, a.hermDrcho(a.hermDrcho(a.hermDrcho(a.hijoIzqdo(n)))));
 	}
 }
-	
 
 #endif
