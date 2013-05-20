@@ -5,36 +5,33 @@ bool AbinEsAbb(const Abin<T>& a)
 {
 	if(a.arbolVacioB()){ return true; }//Arbol vacío. Es un Abb vacío ;)
 	else{
-		return AbinEsAbbRec(a, a.raizB(), Abin<T>::NODO_NULO);//Pasa el árbol, la raiz, y su padre, que no tiene.
+		return AbinEsAbbRec(a, a.raizB());
 	} 
 }
 
-//Recibe un árbol, un nodo n, y el padreB(n). Si n=a.raizB(), entonces p=NODO_NULO. 
+//Recibe un árbol, un nodo n. Si n=a.raizB(), entonces p=NODO_NULO. 
 template <typename T>
-bool AbinEsAbbRec(const Abin<T>& a, const typename Abin<T>::nodo n, const typename Abin<T>::nodo p)
+bool AbinEsAbbRec(const Abin<T>& a, const typename Abin<T>::nodo n)
 {
-	//NO SE HARÁN LLAMADAS RECURSIVAS A NODOS_NULOS!!!
-	//SE CONTROLAN CON LAS CONDICIONES!!
-
+	//NO SE HARÁN LLAMADAS RECURSIVAS A NODOS_NULOS!!! SE CONTROLAN CON LAS CONDICIONES!!
 	//Utilizo "alias" para simplificar código y hacerlo más legible... es igual de eficiente.
 	//... o incluso menos, porque se hacen las llamadas una sola vez, no tantas como en las comparaciones.
 	typename Abin<T>::nodo hizq=a.hijoIzqdoB(n);//hijoIzqdoB
 	typename Abin<T>::nodo hder=a.hijoDrchoB(n);//hijoDrchoB
 	typename Abin<T>::nodo nulo=Abin<T>::NODO_NULO;//nodo nulo
-	//p es el padre de n.
 	//En caso de que no cumpla la definición de Abb será, false. Por defecto, será true.
 	if(n==a.raizB()){//La raiz no tiene padre, por eso es una condición especial.
 		if(hizq!=nulo && a.elemento(hizq) < a.elemento(n) && hder!=nulo && a.elemento(hder) > a.elemento(n))
 		{//Ambos hijos cumplen la condición.
-			return AbinEsAbbRec(a,hizq,n) && AbinEsAbbRec(a,hder,n);//Llamada recursiva a ambas ramas.
+			return AbinEsAbbRec(a,hizq) && AbinEsAbbRec(a,hder);//Llamada recursiva a ambas ramas.
 		}
 		else if(hizq==nulo && hder!=nulo && a.elemento(hder) > a.elemento(n))
 		{
-			return AbinEsAbbRec(a,hder,n); //Solo rama derecha. La otra no existe.
+			return AbinEsAbbRec(a,hder); //Solo rama derecha. La otra no existe.
 		}
 		else if(hder==nulo && hizq!=nulo && a.elemento(hizq) < a.elemento(n))
 		{
-			return AbinEsAbbRec(a,hizq,n);//Solo rama izquierda. La otra no existe.
+			return AbinEsAbbRec(a,hizq);//Solo rama izquierda. La otra no existe.
 		}
 		else if(hizq==nulo && hder==nulo)
 		{
@@ -45,20 +42,22 @@ bool AbinEsAbbRec(const Abin<T>& a, const typename Abin<T>::nodo n, const typena
 		}
 	}//if de la raiz. Ahora, para el resto de casos, en los que se comprueba el padre.
 	//Ahora, n NO ES LA RAIZ. Solo cambia que hay que comprobar al padre... pero cada rama es distinta.
-	else if(n==a.hijoIzqdoB(p))//n es el hijoIzqdoB de su padre.
+	else{
+	typename Abin<T>::nodo p=a.padreB(n);//p es el padre de n.
+	if(n==a.hijoIzqdoB(p))//n es el hijoIzqdoB de su padre.
 	{//Hay que comprobar ahora con especial cuidado que el hijoDrchoB(n) siempre sea menor que p.
 		//El hijoIzqdoB(n), si cumple la condición, será también menor que p, porque será menor que n.
 		if(hizq!=nulo && a.elemento(hizq) < a.elemento(n) && hder!=nulo && a.elemento(hder) > a.elemento(n) && a.elemento(hder) < a.elemento(p))
 		{//Ambos hijos cumplen la condición. Además, hder es menor que el padre de n. IMPORTANTE ESTO.
-			return AbinEsAbbRec(a,hizq,n) && AbinEsAbbRec(a,hder,n);//Llamada recursiva a ambas ramas.
+			return AbinEsAbbRec(a,hizq) && AbinEsAbbRec(a,hder);//Llamada recursiva a ambas ramas.
 		}
 		else if(hizq==nulo && hder!=nulo && a.elemento(hder) > a.elemento(n) && a.elemento(hder) < a.elemento(p))
 		{//hder es menor que el padre de n. IMPORTANTE ESTO.
-			return AbinEsAbbRec(a,hder,n); //Solo rama derecha. La otra no existe.
+			return AbinEsAbbRec(a,hder); //Solo rama derecha. La otra no existe.
 		}
 		else if(hder==nulo && hizq!=nulo && a.elemento(hizq) < a.elemento(n))
 		{//hizq va a ser menor que el padre de n si es menor que n.
-			return AbinEsAbbRec(a,hizq,n);//Solo rama izquierda. La otra no existe.
+			return AbinEsAbbRec(a,hizq);//Solo rama izquierda. La otra no existe.
 		}
 		else if(hizq==nulo && hder==nulo)
 		{
@@ -73,15 +72,15 @@ bool AbinEsAbbRec(const Abin<T>& a, const typename Abin<T>::nodo n, const typena
 		//El hijoDrchoB(n), si cumple la condición, será también mayor que p, porque será mayor que n.
 		if(hizq!=nulo && a.elemento(hizq) < a.elemento(n) && a.elemento(hizq) > a.elemento(p) && hder!=nulo && a.elemento(hder) > a.elemento(n))
 		{//Ambos hijos cumplen la condición. Además, hizq es mayor que el padre de n. IMPORTANTE ESTO.
-			return AbinEsAbbRec(a,hizq,n) && AbinEsAbbRec(a,hder,n);//Llamada recursiva a ambas ramas.
+			return AbinEsAbbRec(a,hizq) && AbinEsAbbRec(a,hder);//Llamada recursiva a ambas ramas.
 		}
 		else if(hizq==nulo && hder!=nulo && a.elemento(hder) > a.elemento(n))
 		{//hder va a ser mayor que el padre de n si es mayor que n.
-			return AbinEsAbbRec(a,hder,n); //Solo rama derecha. La otra no existe.
+			return AbinEsAbbRec(a,hder); //Solo rama derecha. La otra no existe.
 		}
 		else if(hder==nulo && hizq!=nulo && a.elemento(hizq) < a.elemento(n) && a.elemento(hizq) > a.elemento(p))
 		{//hizq es mayor que el padre de n. IMPORTANTE ESTO. && a.elemento(hder) < a.elemento(p)
-			return AbinEsAbbRec(a,hizq,n);//Solo rama izquierda. La otra no existe.
+			return AbinEsAbbRec(a,hizq);//Solo rama izquierda. La otra no existe.
 		}
 		else if(hizq==nulo && hder==nulo)
 		{
@@ -91,4 +90,5 @@ bool AbinEsAbbRec(const Abin<T>& a, const typename Abin<T>::nodo n, const typena
 			return false;
 		}
 	}
+	}//else de raiz.
 }
