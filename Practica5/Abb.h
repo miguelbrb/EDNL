@@ -212,7 +212,7 @@ void Abb<T>::poda(const T& e)
 	if(n!=NODO_NULO)
 	{
 		podaRec(n);
-		eliminar(n);
+		eliminar(e);
 	}
 }
 
