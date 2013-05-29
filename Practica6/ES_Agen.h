@@ -34,9 +34,10 @@ void imprimirDescendientes (typename Agen<T>::nodo r,const Agen<T>& A)
 template <typename T> 
 void leerAgen(Agen<T>& a){
      if(a.arbolVacio()){
-		 T elto, bandera;
-		 cout << "Escriba elemento 'bandera' para parar" << endl;
+		 T elto=I, bandera=I;
+		#if 0 cout << "Escriba elemento 'bandera' para parar" << endl;
 		 cin >> bandera;
+		 #endif
 		 cout << "Introduzca nodo raiz:" << endl;
 		 cin >> elto;
 		 if(elto!=bandera){
@@ -51,7 +52,7 @@ void leerAgen(Agen<T>& a){
 
 template <typename T> 
 void leerDescendientes (Agen<T>& A, typename Agen<T>::nodo n, T bandera){
-     T elto;
+     T elto=I;
      cout << "Inserta hijo izquierdo de " << A.elemento(n) <<": ('" << bandera << "' no introducir mas hijos por aqui) " << endl;
      cin >> elto;
      if(elto != bandera){
