@@ -1,26 +1,18 @@
-//Función principal:
-void eliminarElemAbin(Abin<int>& a, int x)
-{
-	typename Abin<int>::nodo encontrado=buscarAbin(a,a.raizB(),x);//Se busca el nodo con x.
-	if(encontrado==a.raizB() && a.hijoIzqdoB(encontrado)==Abin<int>::NODO_NULO && a.hijoDrchoB(encontrado)==Abin<int>::NODO_NULO)
-	{	a.eliminarRaizB();	} //Si es raíz y es hoja, elimina la raíz. En caso de encontrar algo que no sea raíz, pasa a la RECURSIVA.
-	else if(encontrado != Abin<int>::NODO_NULO){//Si se ha encontrado el nodo, pero no es la raíz, llamada recursiva:
-		eliminaElemRec(a,encontrado,x);
-	}
-}
 //Función de búsqueda en un Abin:
 typename Abin<int>::nodo buscarAbin(const Abin<int>& a, typename Abin<int>::nodo n, int x)
 {
-	if(n != Abin<int>::NODO_NULO){
-		if(a.elemento(n) == x){ return n; }//Si se encuentra, se devuelve el nodo.
-		else{//Si no, se busca por ambas ramas:
-			typename Abin<int>::nodo encontrado = Abin<int>::NODO_NULO;
-			if(a.hijoIzqdoB(n)!=Abin<int>::NODO_NULO) { encontrado = buscarAbin(a,a.hijoIzqdoB(n),x); }
-			if(a.hijoDrchoB(n)!=Abin<int>::NODO_NULO) { encontrado = buscarAbin(a,a.hijoDrchoB(n),x); }
-			return encontrado;//Si no se encuentra, devolverá NODO_NULO.
+	if(n == Abin<int>::NODO_NULO || a.elemento(n) == x){ return n; }
+	else{
+		typename Abin<int>::nodo encontrado = Abin<int>::NODO_NULO;
+		encontrado = buscarAbin(a,a.hijoIzqdoB(n),x);//Busca el nodo por la izquierda...
+		if(encontrado == Abin<int>::NODO_NULO){//Si no ha encontrado por la izquierda, busca por la derecha.
+			return buscarAbin(a,a.hijoDrchoB(n),x);
 		}
+		else return encontrado;
 	}
 }
+
+
 //Función recursiva para hundir el nodo y eliminarlo:
 void eliminaElemRec(Abin<int>& a, typename Abin<int>::nodo n, int x)
 {
@@ -44,6 +36,18 @@ void eliminaElemRec(Abin<int>& a, typename Abin<int>::nodo n, int x)
 		a.elemento(n)=a.elemento(a.hijoDrchoB(n));
 		a.elemento(a.hijoDrchoB(n)) = x;
 		eliminaElemRec(a,a.hijoDrchoB(n),x);
+	}
+}
+
+
+//Función principal:
+void eliminarElemAbin(Abin<int>& a, int x)
+{
+	typename Abin<int>::nodo encontrado = buscarAbin(a,a.raizB(),x);//Se busca el nodo con x.
+	if(encontrado==a.raizB() && a.hijoIzqdoB(encontrado)==Abin<int>::NODO_NULO && a.hijoDrchoB(encontrado)==Abin<int>::NODO_NULO)
+	{	a.eliminarRaizB();	} //Si es raíz y es hoja, elimina la raíz. En caso de encontrar algo que no sea raíz, pasa a la RECURSIVA.
+	else if(encontrado != Abin<int>::NODO_NULO){//Si se ha encontrado el nodo, pero no es la raíz, llamada recursiva:
+		eliminaElemRec(a,encontrado,x);
 	}
 }
 
