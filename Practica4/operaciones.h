@@ -88,7 +88,7 @@ typename Agen<T>::nodo buscarAgen(const Agen<T>& a, typename Agen<T>::nodo n, co
 	else{
 		typename Agen<T>::nodo encontrado = Agen<T>::NODO_NULO;
 		encontrado = buscarAgen(a, a.hijoIzqdo(n), x);
-		if(encontrado == Agen<T>::NODO_NULO)
+		if(encontrado == Agen<T>::NODO_NULO && n!=a.raiz())
 		{
 			return buscarAgen(a, a.hermDrcho(n), x);			
 		}
@@ -106,10 +106,10 @@ void eliminarNodos(Agen<T>& a, typename Agen<T>:: nodo n)
 			eliminarNodos(a,a.hijoIzqdo(n));//Se poda ese hijo...
 			a.eliminarHijoIzqdo(n);//... y se elimina.
 		}
-		if(a.hermDrcho(n)!=Agen<T>::NODO_NULO)//El nodo
+		if(a.hermDrcho(n)!=Agen<T>::NODO_NULO)//El nodo tiene hermano...
 		{
-			eliminarNodos(a,a.hermDrcho(n));
-			a.eliminarHermDrcho(n);
+			eliminarNodos(a,a.hermDrcho(n));//Se poda ese hermano y sus hermanos...
+			a.eliminarHermDrcho(n);//... y se elimina.
 		}
 	}
 }
