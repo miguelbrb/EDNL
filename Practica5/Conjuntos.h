@@ -36,7 +36,7 @@ Conjunto ROMBO(const Conjunto& c1, const Conjunto& c2)
 	
 	while(!u.vacio()){
 		int elem = Abin<int>(u).elemento(Abin<int>(u).raizB());
-		if(i.buscar(elem)==Abb<int>::NODO_NULO){//Elementos no comunes.
+		if(i.buscar(elem)==Abb<int>::NODO_NULO){
 			R.insertar(elem);
 		}
 		u.eliminar(elem);
